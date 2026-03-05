@@ -16,4 +16,7 @@ https://inspirehep.net/literature/2935078
 - JAMpol25-PSTF_helium_LT_only: Polarized structure functions $g_1$ and $g_2$ (helium) (LT only)
 - JAMpol25-PSTF_tritium_LT_only: Polarized structure functions $g_1$ and $g_2$ (tritium) (LT only)
 
+## Notes
+- For PDFs, use index 0, 1, 2, 3, 4, 5 for gluon, down quark, up quark, strange quark, charm quark, and bottom quark, respectively.  Use negative indices for antiquarks.
+- For structure functions, use index 908 for $g_1$ and 909 for $g_2$
 
