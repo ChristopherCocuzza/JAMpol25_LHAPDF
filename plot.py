@@ -27,9 +27,6 @@ X1=10**np.linspace(-4,-1)
 X2=np.linspace(0.101,0.99)
 X=np.append(X1,X2)
 
-idxs = {}
-idxs['g1'] = 908
-idxs['g2'] = 909
 
 def plot_pstf(Q2,mode=1):
 
@@ -139,19 +136,124 @@ def plot_pstf(Q2,mode=1):
 
     py.tight_layout()
 
-    filename = 'gallery/pstfs.png'
+    filename = 'gallery/pstfs'
     if mode==1: filename += '-CI'
     filename+='.png'
     py.savefig(filename)
     print ('Saving figure to %s'%filename)
     py.clf()
 
+def plot_ppdfs(Q2,mode=1):
+
+    nrows,ncols=3,2
+    fig = py.figure(figsize=(ncols*7,nrows*4))
+    ax11=py.subplot(nrows,ncols,1)
+    ax12=py.subplot(nrows,ncols,2)
+    ax21=py.subplot(nrows,ncols,3)
+    ax22=py.subplot(nrows,ncols,4)
+    ax31=py.subplot(nrows,ncols,5)
+    ax32=py.subplot(nrows,ncols,6)
+
+    hand = {}
+    flavs = ['u','d','ub','db','s','g']
+
+    idxs = {}
+    idxs['g'] = 0
+    idxs['u'] = 2
+    idxs['d'] = 1
+    idxs['s'] = 3
+    idxs['ub'] = -2
+    idxs['db'] = -1
+
+    tablename = 'JAMpol25-PPDF_proton_nlo'
+    PPDF = lhapdf.mkPDFs(tablename)
+    nrep = len(PPDF)
+
+    for flav in flavs:
+        data = [] 
+        if flav=='u':  ax = ax11
+        if flav=='d':  ax = ax12
+        if flav=='ub': ax = ax21
+        if flav=='db': ax = ax22
+        if flav=='s':  ax = ax31
+        if flav=='g':  ax = ax32
+
+
+        for i in range(nrep):
+            _ppdf =  np.array([PPDF[i].xfxQ2(idxs[flav],x,Q2) for x in X])
+            data.append(_ppdf)
+
+        #print(np.mean(data,axis=0))
+        #print(np.std(data,axis=0))
+
+        p = 16
+        do = np.percentile(data,p    ,axis=0)
+        up = np.percentile(data,100-p,axis=0)
+
+        color = 'red'
+
+        #--plot each replica
+        if mode==0:
+            for i in range(nrep):
+                hand['JAM'] ,= ax.plot(X,data[i],color=color,alpha=0.1)
+        
+        #--plot 68% CI
+        if mode==1:
+            hand['JAM'] = ax.fill_between(X,do,up,color=color,alpha=0.9)
+
+
+    for ax in [ax11,ax12,ax21,ax22,ax31,ax32]:
+          ax.set_xlim(1e-4,1)
+          #ax.semilogx()
+            
+          ax.tick_params(axis='both', which='both', top=True, right=True, direction='in',labelsize=20)
+          #ax.set_xticks([0.0001,0.001,0.01,0.1,1])
+          #ax.set_xticklabels([r'$10^{-4}$',r'$10^{-3}$',r'$10^{-2}$',r'$10^{-1}$',r'$1$'])
+
+    for ax in [ax11,ax12,ax21,ax22]:
+          ax.tick_params(labelbottom=False)
+
+    #ax13.axhline(0,0,1,ls='--',color='black',alpha=0.5)
+
+    #ax11.set_ylim(0,0.4)   
+    #ax12.set_ylim(0,0.015) 
+    #ax13.set_ylim(-1.0,2.0)
+
+    ax31.set_xlabel(r'$x$' ,size=35)
+    ax32.set_xlabel(r'$x$' ,size=35)   
+
+    ax11.text(0.40,0.85,r'$Q^2 = %s$'%Q2 + ' ' + r'\textrm{GeV}' + r'$^2$', transform=ax11.transAxes,size=30)
+
+    ax11.text(0.05,0.85,r'\boldmath$xu$'          ,transform=ax11.transAxes,size=30)
+    ax12.text(0.05,0.85,r'\boldmath$xd$'          ,transform=ax12.transAxes,size=30)
+    ax21.text(0.05,0.85,r'\boldmath$x\bar{u}$'    ,transform=ax21.transAxes,size=30)
+    ax22.text(0.05,0.85,r'\boldmath$x\bar{d}$'    ,transform=ax22.transAxes,size=30)
+    ax31.text(0.05,0.85,r'\boldmath$xs$'          ,transform=ax31.transAxes,size=30)
+    ax32.text(0.05,0.85,r'\boldmath$xg$'          ,transform=ax32.transAxes,size=30)
+
+    #handles,labels=[],[]
+    #handles.append(hand['full'])
+    #handles.append(hand['LT'])
+    #labels.append(r'\textrm{\textbf{JAMpol25}}')
+    #labels.append(r'\textrm{\textbf{JAMpol25 (LT only)}}')
+    #ax11.legend(handles,labels,frameon=False,loc='lower left',fontsize=28, handletextpad = 0.5, handlelength = 1.5, ncol = 1, columnspacing = 0.5)
+
+    py.tight_layout()
+
+    filename = 'gallery/ppdfs'
+    if mode==1: filename += '-CI'
+    filename+='.png'
+    py.savefig(filename)
+    print ('Saving figure to %s'%filename)
+    py.clf()
 
 if __name__=="__main__":
 
     Q2 = 10
     #plot_pstf(Q2,mode=0)
     plot_pstf(Q2,mode=1)
+    #plot_ppdfs(Q2,mode=0)
+    plot_ppdfs(Q2,mode=1)
 
 
 
