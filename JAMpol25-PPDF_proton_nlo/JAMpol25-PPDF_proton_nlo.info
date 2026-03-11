@@ -1,5 +1,5 @@
-SetDesc:         "JAM25; mem=0 -> average of replicas; mem > 0 -> replicas"
-SetIndex:        1
+SetDesc:         "JAMpol25; mem = replicas"
+SetIndex:        953000
 Authors:         JAM Collaboration.
 Reference:       N/A
 Format:          lhagrid1
