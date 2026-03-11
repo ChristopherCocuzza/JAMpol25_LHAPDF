@@ -1,4 +1,8 @@
+<<<<<<< HEAD
 SetDesc:         "JAMpol25; mem = replicas"
+=======
+SetDesc:         "JAMpol25; members = replicas"
+>>>>>>> 813d11375623adf4077f919f97c89e4f00097ed5
 SetIndex:        953000
 Authors:         JAM Collaboration.
 Reference:       N/A
