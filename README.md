@@ -21,6 +21,7 @@ https://inspirehep.net/literature/2935078
 ## Notes
 - There are 410 replicas.  Member 0 is the mean of the replicas.
 - For PDFs, use index 0, 1, 2, 3, 4, 5 for gluon, down quark, up quark, strange quark, charm quark, and bottom quark, respectively.  Use negative indices for antiquarks.
-- For structure functions, use index 908 for $g_1$ and 909 for $g_2$
+- For polarized structure functions, use index 908 for $g_1$ and 909 for $g_2$
+- For unpolarized structure functions, use index 908 for $F_2$, 909 for $F_L$, and 910 for $F_3$
 
 
